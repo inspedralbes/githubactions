@@ -10,12 +10,13 @@ jobs:
 
       - name: Creant el fitxer amb la clau de producció
         run: |
-          echo "${{ secrets.PROD_KEY }}" > ./prod_key.pem
-          chmod 600 ./prod_key.pem
-          tail prod_key.pem
+
 
       - name: scp to production
         run: |
+          echo "${{ secrets.PROD_KEY }}" > ~/prod_key.pem
+          chmod 600 ~/prod_key.pem
+          wc -l ~/prod_key.pem
           cd ${{ github.workspace }}
           echo "Action desplegant a produccio" > ./web/last_deploy.txt
           date >> ./web/last_deploy.txt
