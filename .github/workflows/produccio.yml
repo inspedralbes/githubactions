@@ -1,18 +1,25 @@
 name: Preparant per producció
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} està pujant l'aplicació a PROD  🚀
 on: [push]
 jobs:
-  Pujar-a-produccio-amb.SCP:
+  Pujar-a-produccio-amb-SCP:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Creant el fitxer amb la clau de producció
+        run: |
+
+
       - name: scp to production
         run: |
+          echo "${{ secrets.PROD_KEY }}" > ~/prod_key.pem
+          chmod 600 ~/prod_key.pem
+          wc -l ~/prod_key.pem
           cd ${{ github.workspace }}
-          ls -la
-          echo scp -r -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -i ${{ secrets.PROD_KEY }} ./web/* ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/home/ebota/web/actions.daw.inspedralbes.cat/public_html/
+          echo "Action desplegant a produccio" > ./web/last_deploy.txt
+          date >> ./web/last_deploy.txt
+          scp -r -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -i "~/prod_key.pem" ./web/* ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/home/ebota/web/actions.daw.inspedralbes.cat/public_html/
+          
       - run: echo "🍏 This job's status is ${{ job.status }}."
