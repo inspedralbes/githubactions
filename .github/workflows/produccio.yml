@@ -13,7 +13,6 @@ jobs:
           cd ${{ github.workspace }}
           echo "Action desplegant a produccio" > ./web/last_deploy.txt
           date >> ./web/last_deploy.txt
-          ls -la
           scp -r -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -i ${{ secrets.PROD_KEY }} ./web/* ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/home/ebota/web/actions.daw.inspedralbes.cat/public_html/
           
       - run: echo "🍏 This job's status is ${{ job.status }}."
