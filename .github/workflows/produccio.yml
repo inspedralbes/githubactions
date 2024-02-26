@@ -9,13 +9,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Creant el fitxer amb la clau de producció
-        run: echo "${{ secrets.PROD_KEY }}" > ./prod_key.pem
+        run: |
+          echo "${{ secrets.PROD_KEY }}" > ./prod_key.pem
+          chmod 600 ./prod_key.pem
+          tail prod_key.pem
 
       - name: scp to production
         run: |
           cd ${{ github.workspace }}
           echo "Action desplegant a produccio" > ./web/last_deploy.txt
           date >> ./web/last_deploy.txt
-          scp -r -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -i "~/prod_key.pem" ./web/* ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/home/ebota/web/actions.daw.inspedralbes.cat/public_html/
+          echo scp -r -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -i "~/prod_key.pem" ./web/* ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/home/ebota/web/actions.daw.inspedralbes.cat/public_html/
           
       - run: echo "🍏 This job's status is ${{ job.status }}."
