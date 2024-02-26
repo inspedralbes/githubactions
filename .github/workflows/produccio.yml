@@ -2,7 +2,7 @@ name: Preparant per producció
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Pujar-a-produccio-amb.SCP:
+  Pujar-a-produccio-amb-SCP:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
