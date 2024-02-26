@@ -5,18 +5,13 @@ jobs:
   Pujar-a-produccio-amb-SCP:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Obtenint el codi del respositori
         uses: actions/checkout@v4
 
-      - name: Creant el fitxer amb la clau de producció
-        run: |
-
-
-      - name: scp to production
+      - name: scp a produccio
         run: |
           echo "${{ secrets.PROD_KEY }}" > ~/prod_key.pem
           chmod 600 ~/prod_key.pem
-          wc -l ~/prod_key.pem
           cd ${{ github.workspace }}
           echo "Action desplegant a produccio" > ./web/last_deploy.txt
           date >> ./web/last_deploy.txt
